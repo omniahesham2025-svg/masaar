@@ -353,57 +353,31 @@
 
   ::selection{background:var(--gold);color:var(--forest-deep);}
 
-  /* ===== Disclaimer bars (moving ticker) ===== */
+  /* ===== Disclaimer bar (static, bottom of page only) ===== */
   .disclaimer-bar{
     background:var(--gold);
     color:var(--forest-deep);
-    overflow:hidden;
-    white-space:nowrap;
     font-size:.92rem;
     font-weight:800;
     letter-spacing:.03em;
-    line-height:1;
-    padding:11px 0;
-    position:relative;z-index:1001;
+    line-height:1.4;
+    padding:11px 14px;
+    text-align:center;
+    position:relative;
   }
-  .disclaimer-bar.top{border-bottom:2px solid var(--forest-deep);}
   .disclaimer-bar.bottom{border-top:2px solid var(--forest-deep);}
-  .ticker-track{
-    display:inline-flex;
-    width:max-content;
-    animation:ticker-move 28s linear infinite;
-    will-change:transform;
-  }
-  .disclaimer-bar:hover .ticker-track{animation-play-state:paused;}
-  .ticker-group{display:inline-flex;flex-shrink:0;}
-  .ticker-item{display:inline-flex;align-items:center;gap:14px;padding-right:56px;}
+  .ticker-item{display:inline-flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:14px;}
   .ticker-item .tag{
     background:var(--forest-deep);color:var(--gold);
     padding:4px 10px;border-radius:4px;
     font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
   }
-  .ticker-item .dot{width:7px;height:7px;border-radius:50%;background:var(--forest-deep);display:inline-block;}
-  @keyframes ticker-move{from{transform:translateX(0);}to{transform:translateX(-50%);}}
   @media(max-width:600px){
-    .disclaimer-bar{font-size:.82rem;padding:9px 0;}
-    .ticker-track{animation-duration:22s;}
-  }
-  @media(prefers-reduced-motion:reduce){
-    .disclaimer-bar{white-space:normal;text-align:center;padding:9px 14px;}
-    .ticker-track{animation:none;width:auto;display:block;}
-    .ticker-group[aria-hidden="true"]{display:none;}
-    .ticker-item{padding-right:0;}
-    .ticker-item .dot{display:none;}
+    .disclaimer-bar{font-size:.82rem;padding:9px 12px;}
   }
 </style>
 </head>
 <body>
-
-<!-- ===== Disclaimer (top) ===== -->
-<div class="disclaimer-bar top" id="disclaimer-top" role="note" aria-label="Disclaimer: This website is not affiliated with Arada">
-  <div class="ticker-track"><div class="ticker-group"><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span></div><div class="ticker-group" aria-hidden="true"><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span></div></div>
-</div>
-
 
 <!-- ===== Header ===== -->
 <header id="site-header">
@@ -664,7 +638,7 @@
 
 <!-- ===== Disclaimer (bottom) ===== -->
 <div class="disclaimer-bar bottom" role="note" aria-label="Disclaimer: This website is not affiliated with Arada">
-  <div class="ticker-track"><div class="ticker-group"><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span></div><div class="ticker-group" aria-hidden="true"><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span><span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada<span class="dot"></span></span></div></div>
+  <span class="ticker-item"><span class="tag">Disclaimer</span>This website is not affiliated with Arada</span>
 </div>
 
 
@@ -675,18 +649,10 @@
 <script>
   // Header scroll state
   const header = document.getElementById('site-header');
-  // Keep the fixed header just below the top disclaimer bar, then stick to the top once it scrolls away
-  const topBar = document.getElementById('disclaimer-top');
-  function placeHeader(){
-    header.style.top = Math.max(0, topBar.offsetHeight - window.scrollY) + 'px';
-  }
   window.addEventListener('scroll', () => {
     header.classList.toggle('scrolled', window.scrollY > 40);
-    placeHeader();
   });
-  window.addEventListener('resize', placeHeader);
-  window.addEventListener('load', placeHeader);
-  placeHeader();
+  header.classList.toggle('scrolled', window.scrollY > 40);
 
   // Reveal on scroll
   const revealEls = document.querySelectorAll('.reveal');
